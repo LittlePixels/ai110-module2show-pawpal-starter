@@ -36,16 +36,83 @@ classDiagram
 **b. Design changes**
 
 - Did your design change during implementation?
-Yes, there has been several changes!
 
--No Owner Class
--No Task Class
--Attributes written once with no getters/setters
--Methods have no parameters
--No Scheduling or Priority logic
+Yes, there have been several changes!
+
+- No Owner Class
+- No Task Class
+- Attributes written once with no getters/setters
+- Methods have no parameters
+- No Scheduling or Priority logic
 
 - If yes, describe at least one change and why you made it.
-The change I made was to have the Owner class available. Right now the dog class has its own care methods, but is a design miscmatch. An owner should hold reference to a Dog and call those methods.
+
+The change I made was to have the Owner class available. Right now the dog class has its own care methods, but is a design mismatch. An owner should hold reference to a Dog and call those methods.
+
+### c. Final UML diagram (updated to match implementation)
+
+The diagram below reflects the actual four-class system built in `pawpal_system.py`, including all attributes, methods, and relationships:
+
+```mermaid
+classDiagram
+    class Task {
+        +str description
+        +str time
+        +str frequency
+        +bool completed
+        +date due_date
+        +mark_complete() void
+        +is_due() bool
+    }
+
+    class Pet {
+        +str name
+        +str species
+        +str location
+        +str type_of_food
+        +str type_of_shampoo
+        +list tasks
+        +add_task(task Task) void
+        +get_tasks() list
+        +walk_on_leash() void
+        +eat_food() void
+        +bath_in_water() void
+    }
+
+    class Owner {
+        +str name
+        +list pets
+        +add_pet(pet Pet) void
+        +get_all_tasks() list
+        +find_pet(pet_name str) Pet
+    }
+
+    class Scheduler {
+        -Owner _owner
+        +get_all_tasks() list
+        +get_pending_tasks() list
+        +filter_by_status(completed bool) list
+        +filter_by_pet(pet_name str) list
+        +prioritize_tasks() list
+        +detect_conflicts() list
+        +mark_task_complete(pet_name str, task Task) void
+        +run() void
+    }
+
+    Owner "1" *-- "*" Pet : has
+    Pet "1" *-- "*" Task : has
+    Scheduler --> Owner : uses
+    Scheduler ..> Task : creates on recurrence
+```
+
+Key differences from the initial design:
+
+- `Dog` was renamed to `Pet` and gained `name`, `species`, `type_of_food`, and `type_of_shampoo` fields so the scheduler can handle any animal.
+- `Task` is a new class. Care activities (walk, feed, bath) moved out of `Pet` and became independent `Task` objects with a scheduled `time`, `frequency`, `due_date`, and `completed` flag.
+- `Owner` is a new class that holds a list of `Pet` objects and provides `get_all_tasks()` to aggregate tasks across pets.
+- `Scheduler` is a new class that depends on `Owner`. It adds all the scheduling intelligence: sorting by time, filtering, conflict detection, and auto-creating the next recurrence when a task is marked complete.
+- The `Scheduler ..> Task` dashed arrow represents the dependency created by `mark_task_complete()`, which instantiates a new `Task` object for the next occurrence.
+
 ---
 
 ## 2. Scheduling Logic and Tradeoffs
@@ -165,3 +232,13 @@ The conflict detection would be the first thing to improve. The current implemen
 - What is one important thing you learned about designing systems or working with AI on this project?
 
 AI is most useful as a reviewer and an accelerator, not as an architect. It generated correct code quickly — stubs, tests, docstrings, sorting logic — but it could not know which design decisions mattered for this specific project without context. The decision to keep the explicit loop over the list comprehension, and to use exact-time rather than duration-based conflict detection, were both human judgment calls made after reviewing what AI suggested. The takeaway is that AI proposals should always be read critically: ask whether the suggestion is optimizing for the right thing (correctness, readability, performance) before accepting it.
+
+--Reflect on AI Strategy--
+
+The most effective parts for building my scheduler has to do with the Mermaid.UML file. This helped fleshed out the methods and attributes that I needed for the class.
+
+--One Ai suggestion I kept was to create a seperate class for the owner, which would have the "DOG" class as the child class. This enabled the ability of the class to exist in itself, without having to be seperate.
+
+--Seperate chats helped kept the flow of the process, without running into previous processes.
+
+--Being lead architecture while collaborating with powerful AI tools is a very good responsibility. By being Lead Artitechure, I can check on what the AI is doing while adding my own intution into the thought process of the AI instead of blindly putting in information. Claude has helped disect things into a reasonable and logical amount that is great with the project.
