@@ -50,3 +50,37 @@ pip install -r requirementse.txt
 5. Add tests to verify key behaviors.
 6. Connect your logic to the Streamlit UI in `app.py`.
 7. Refine UML so it matches what you actually built.
+
+## Testing PawPal+
+
+### Run the test suite
+
+```bash
+python -m pytest
+```
+
+Or for verbose output showing each test name:
+
+```bash
+python -m pytest -v
+```
+
+### What the tests cover
+
+25 automated tests across all four classes in `pawpal_system.py`:
+
+| Area | Tests |
+| --- | --- |
+| **Task** | Defaults to pending, `mark_complete()`, `is_due()` before/after completion, future and past `due_date` |
+| **Pet** | Starts with no tasks, `add_task()` for one and many tasks |
+| **Owner** | Starts with no pets, `add_pet()`, `get_all_tasks()` across multiple pets |
+| **Scheduler — sorting** | Tasks added out of order are returned chronologically; non-padded times (`"9:00"`) sort correctly |
+| **Scheduler — recurrence** | Daily task creates next occurrence for tomorrow; Weekly for 7 days; unknown frequency creates no new task |
+| **Scheduler — conflicts** | Same-time tasks produce a warning string; different times produce none; warnings never raise exceptions |
+| **Scheduler — edge cases** | Owner with no pets, pet with no tasks, filter for a nonexistent pet name — all return empty lists without crashing |
+
+### Confidence Level
+
+### 4 / 5 stars
+
+The core happy paths (sorting, filtering, recurrence, conflict detection) and the most likely edge cases (empty pets/tasks, unknown frequency, past/future due dates) are all covered and passing. One star is held back because conflict detection only checks for exact time matches — duration-based overlap detection is not yet tested, and the Streamlit UI layer (`app.py`) has no automated tests.
