@@ -22,6 +22,15 @@ Your final app should:
 - Display the plan clearly (and ideally explain the reasoning)
 - Include tests for the most important scheduling behaviors
 
+## Smarter Scheduling
+
+The scheduler goes beyond a simple task list with four algorithmic features:
+
+- **Time-sorted schedule** — `prioritize_tasks()` uses `datetime.strptime` with a lambda key so tasks sort correctly by `HH:MM` even when times lack a leading zero (e.g. `"9:00"` vs `"18:00"`).
+- **Filtering** — `filter_by_pet(name)` and `filter_by_status(completed)` let you slice the full task list by pet or completion state without touching the underlying data.
+- **Recurring tasks** — `mark_task_complete()` marks a task done and automatically creates the next occurrence using `timedelta`. A Daily task reappears tomorrow, Weekly in 7 days, Monthly in 30 days.
+- **Conflict detection** — `detect_conflicts()` scans the sorted schedule for any two tasks sharing the same start time and returns plain-English warning strings — no exceptions raised, no schedule blocked.
+
 ## Getting started
 
 ### Setup
@@ -29,7 +38,7 @@ Your final app should:
 ```bash
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+pip install -r requirementse.txt
 ```
 
 ### Suggested workflow
