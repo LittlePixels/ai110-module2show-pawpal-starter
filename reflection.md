@@ -81,7 +81,7 @@ Copilot suggested collapsing `Owner.get_all_tasks()` from an explicit nested `fo
 return [(pet.name, task) for pet in self.pets for task in pet.get_tasks()]
 ```
 
-This was reviewed and **not adopted**. The nested comprehension is harder to read for anyone learning the codebase, and clarity was prioritized over brevity here.
+ The nested comprehension is harder to read for anyone learning the codebase, and clarity was prioritized over brevity here.
 
 - Why is that tradeoff reasonable for this scenario?
 
