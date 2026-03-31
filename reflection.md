@@ -36,8 +36,16 @@ classDiagram
 **b. Design changes**
 
 - Did your design change during implementation?
-- If yes, describe at least one change and why you made it.
+Yes, there has been several changes!
 
+-No Owner Class
+-No Task Class
+-Attributes written once with no getters/setters
+-Methods have no parameters
+-No Scheduling or Priority logic
+
+- If yes, describe at least one change and why you made it.
+The change I made was to have the Owner clas available. Right now the dog class has its own care methods, but is a design miscmatch. An owner should hold reference to a Dog and call those methods.
 ---
 
 ## 2. Scheduling Logic and Tradeoffs
