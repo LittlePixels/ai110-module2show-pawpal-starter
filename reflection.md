@@ -1,11 +1,37 @@
 # PawPal+ Project Reflection
 
 ## 1. System Design
-
+Three Core Actions to peform:
+Walk a Pet, Feed a pet, Bath a Pet
 **a. Initial design**
 
 - Briefly describe your initial UML design.
+
+For my UML design I did such as walking the pet, feeding the pet, and bathing the pet. These three core functions are important and are vaulable to the UML design overall.
+
 - What classes did you include, and what responsibilities did you assign to each?
+ I assigned walking the pet as a public class, feeding the pet and bathing the pet as private classes. These responsibility such as feeding the pet is assigning the pet to be fed by the owner, the walking that the pet is walked by the owner, and that the bathing is that the pet is bathed by the owner. All three have priority assignments as they are the basic core function in keeping an animal healthy.
+
+ Step 2: List Building Blocks(Attributes):
+ 1.Walking: Location
+ 2.Feeding: Type of Food
+ 3.Bathing: Type of Shampoo
+ (Methods)
+ 1.Dog on Leash
+ 2. Eating Food
+ 3. Bath in Water
+
+```mermaid
+classDiagram
+    class Dog {
+        - String location
+        - String typeOfFood
+        - String typeOfShampoo
+        + walkOnLeash() void
+        + eatFood() void
+        + bathInWater() void
+    }
+```
 
 **b. Design changes**
 
